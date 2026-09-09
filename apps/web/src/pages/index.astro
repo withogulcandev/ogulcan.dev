@@ -1,0 +1,93 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../layouts/Atlas.astro';
+import Timeline from '../components/Timeline.astro';
+import Atlas from '../components/Atlas';
+import {
+  deriveCityCoords,
+  deriveCountryCoords,
+  TYPE_COLOR,
+  TYPE_GLYPH,
+  type AtlasEntry,
+} from '../lib/atlas';
+
+const raw = (await getCollection('entries')).sort(
+  (a, b) => a.data.date.getTime() - b.data.date.getTime(),
+);
+
+const atlasEntries: AtlasEntry[] = raw.map((e) => ({
+  slug: e.id,
+  title: e.data.title,
+  date: e.data.date.toISOString().slice(0, 10),
+  country: e.data.country,
+  city: e.data.city ?? null,
+  type: e.data.type,
+  coord: e.data.coord ?? null,
+  summary: e.data.summary ?? null,
+}));
+
+const cityCoords = deriveCityCoords(atlasEntries);
+const countryCoords = deriveCountryCoords(atlasEntries);
+
+const rendered = await Promise.all(
+  raw.map(async (e) => ({ entry: e, Content: (await render(e)).Content })),
+);
+
+const fmtDate = (d: Date) => {
+  const iso = d.toISOString().slice(0, 10);
+  const [y, m, day] = iso.split('-');
+  return { iso, pretty: `${y} · ${m} · ${day}` };
+};
+---
+
+<Layout title="ogulcan.dev" description="A modern travelogue.">
+  <Atlas
+    client:only="react"
+    entries={atlasEntries}
+    cityCoords={cityCoords}
+    countryCoords={countryCoords}
+  />
+  <Timeline entries={atlasEntries} />
+  <main id="main" class="atlas-main">
+    {
+      rendered.map(({ entry, Content }, i) => {
+        const { iso, pretty } = fmtDate(entry.data.date);
+        return (
+          <>
+            <article
+              class="atlas-entry"
+              data-slug={entry.id}
+              id={entry.id}
+            >
+              <header class="atlas-entry-header">
+                <p class="atlas-entry-meta">
+                  <span
+                    class="atlas-entry-type"
+                    style={`color:${TYPE_COLOR[entry.data.type]}`}
+                    aria-label={entry.data.type}
+                  >
+                    {TYPE_GLYPH[entry.data.type]}
+                  </span>
+                  <time datetime={iso}>{pretty}</time>
+                  {entry.data.city && (
+                    <>
+                      <span class="dot">·</span>
+                      {entry.data.city}
+                    </>
+                  )}
+                </p>
+                <h2 class="atlas-entry-title">
+                  <a href={`/${entry.id}`}>{entry.data.title}</a>
+                </h2>
+              </header>
+              <div class="prose atlas-prose">
+                <Content />
+              </div>
+            </article>
+            {i < rendered.length - 1 && <hr class="fleuron" />}
+          </>
+        );
+      })
+    }
+  </main>
+</Layout>
