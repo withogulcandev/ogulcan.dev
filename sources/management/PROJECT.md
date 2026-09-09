@@ -16,7 +16,7 @@ Detaylı planlama: brain'de `projects/writing-platform.md`.
 
 | Concern | Choice | Why |
 |---|---|---|
-| Framework | Astro 5, `output: 'static'` | Zero JS on entry pages by default |
+| Framework | Astro 7, `output: 'static'` | Zero JS on entry pages by default |
 | Islands | `@astrojs/react` | Reserved for Faz 2 (Triangle + Routine demos) |
 | Fonts | Google Fonts (Newsreader + JetBrains Mono) | Fast to ship; self-host + subset v2 |
 | Deploy | Cloudflare Pages | No adapter needed |
@@ -27,6 +27,12 @@ Detaylı planlama: brain'de `projects/writing-platform.md`.
 - `unist-util-visit`, `remark-wikilinks.ts` — no wikilinks in v1
 - Atlas island, Timeline component, coord/wifi/outlets/budget/verdict fields
 - `apps/web/dist/` — stale Aug build, .gitignore'a alındığı için sorun yok
+
+### Upgraded (2026-09-09)
+- Astro 5 → 7.3.2
+- @astrojs/react 4 → 6.0.5
+
+Package manager: **yarn** (npm değil).
 
 ---
 

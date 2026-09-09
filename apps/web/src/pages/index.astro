@@ -1,7 +1,55 @@
 ---
+import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
+
+const TYPE_GLYPH: Record<string, string> = {
+  note: '◦',
+  stay: '🛏',
+  eat: '🍜',
+  work: '☕',
+};
+
+const all = await getCollection('entries');
+const published = all
+  .filter((e) => e.data.status === 'published')
+  .sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
+
+const fmtDate = (d: Date) => {
+  const iso = d.toISOString().slice(0, 10);
+  const [y, m, day] = iso.split('-');
+  return { iso, pretty: `${y} · ${m} · ${day}` };
+};
 ---
 
 <Base title="ogulcan.dev" description="Konumdan bağımsız yaşam üzerine yazılar.">
-  <p>Yakında.</p>
+  {published.length === 0 && <p>Henüz yayınlanmış yazı yok.</p>}
+  {published.length > 0 && (
+    <ol class="entry-list">
+      {published.map((entry) => {
+        const { iso, pretty } = fmtDate(entry.data.date);
+        return (
+          <li>
+            <article>
+              <p class="entry-meta">
+                <span class="entry-type" aria-label={entry.data.type}>
+                  {TYPE_GLYPH[entry.data.type]}
+                </span>
+                <time datetime={iso}>{pretty}</time>
+                {entry.data.city && (
+                  <>
+                    <span class="dot">·</span>
+                    {entry.data.city}
+                  </>
+                )}
+              </p>
+              <h2 class="entry-title">
+                <a href={`/${entry.id}`}>{entry.data.title}</a>
+              </h2>
+              {entry.data.summary && <p class="entry-summary">{entry.data.summary}</p>}
+            </article>
+          </li>
+        );
+      })}
+    </ol>
+  )}
 </Base>
