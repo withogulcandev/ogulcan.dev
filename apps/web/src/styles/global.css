@@ -12,16 +12,6 @@
   --font-mono:  'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --paper:  #10141A;
-    --ink:    #E8E6E1;
-    --indigo: #8FB0DE;
-    --muted:  #8B8A85;
-    --rule:   #2A3038;
-  }
-}
-
 *,
 *::before,
 *::after {
@@ -57,13 +47,6 @@ body::before {
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
 }
 
-@media (prefers-color-scheme: dark) {
-  body::before {
-    mix-blend-mode: screen;
-    opacity: 0.03;
-  }
-}
-
 .page-header {
   max-width: var(--measure);
   margin: 0 auto;
@@ -86,9 +69,109 @@ body::before {
 }
 
 main {
+  padding: 4rem 1.5rem 5rem;
+}
+
+/* Book layout — 1/3 nav + 2/3 main, sticky */
+.book-layout {
+  display: grid;
+  grid-template-columns: minmax(180px, 1fr) minmax(0, 2fr);
+  gap: 3.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.book-nav {
+  position: sticky;
+  top: 2rem;
+  align-self: start;
+  border-right: 1px solid var(--rule);
+  padding-right: 1.5rem;
+  max-height: calc(100vh - 4rem);
+  overflow-y: auto;
+}
+
+.book-nav .nav-label {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 1rem;
+}
+
+.book-nav ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  counter-reset: chapter;
+}
+
+.book-nav li {
+  counter-increment: chapter;
+  padding: 0.4rem 0;
+  line-height: 1.35;
+}
+
+.book-nav li::before {
+  content: counter(chapter, upper-roman) '.';
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  margin-right: 0.5em;
+  opacity: 0.7;
+}
+
+.book-nav a {
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.book-nav a:hover {
+  color: var(--indigo);
+}
+
+.book-nav a.active {
+  color: var(--indigo);
+  font-weight: 600;
+}
+
+.book-main {
+  max-width: var(--measure);
+}
+
+.book-main > header {
+  text-align: left;
+  padding: 0 0 2.5rem;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 2.5rem;
+}
+
+.book-main > header h1 {
+  margin: 0 0 0.4em;
+}
+
+/* Chronological list wrapper (index page keeps centered narrow) */
+.centered-column {
   max-width: var(--measure);
   margin: 0 auto;
-  padding: 4rem 1.5rem 5rem;
+}
+
+@media (max-width: 800px) {
+  .book-layout {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .book-nav {
+    position: static;
+    border-right: 0;
+    border-bottom: 1px solid var(--rule);
+    padding-right: 0;
+    padding-bottom: 1.5rem;
+    max-height: none;
+  }
 }
 
 .page-footer {
