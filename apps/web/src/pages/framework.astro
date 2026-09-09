@@ -1,20 +1,30 @@
 ---
 import Base from '../layouts/Base.astro';
 import Triangle from '../components/Triangle';
+import Routine from '../components/Routine';
+
+const fukuokaPins = [
+  { type: 'eat' as const, label: 'Yanagibashi Market', coord: [33.590, 130.395] as [number, number] },
+  { type: 'stay' as const, label: 'Hostel Toka', coord: [33.593, 130.401] as [number, number] },
+  { type: 'work' as const, label: 'Manu Coffee', coord: [33.588, 130.398] as [number, number] },
+];
 ---
 
 <Base title="Çerçeve — ogulcan.dev" description="Eat, stay, work üçgeni ve rutin — konumdan bağımsız yaşamanın omurgası.">
   <article>
     <header>
       <h1>Çerçeve</h1>
-      <p class="entry-meta">Interaktif · eat, stay, work</p>
+      <p class="entry-meta">Interaktif · eat, stay, work + rutin</p>
     </header>
     <div class="prose">
-      <p>Konumdan bağımsız yaşamanın omurgası üç köşede okunur: <strong>eat</strong>, <strong>stay</strong>, <strong>work</strong>. Bir köşeye tıkla — o boyutun anlamı açılır.</p>
+      <p>Konumdan bağımsız yaşamanın omurgası üç köşede okunur — <strong>eat</strong>, <strong>stay</strong>, <strong>work</strong>. Bir şehirde bu üç noktayı işaretlediğinde ortaya bir üçgen çıkar. Aşağıda Fukuoka örneği:</p>
     </div>
-    <Triangle client:visible />
+    <Triangle pins={fukuokaPins} client:only="react" />
     <div class="prose">
-      <p>Üçgeni ayakta tutan görünmez bir dördüncü şey daha var: <strong>rutin</strong>. Aynı yolları yürümek, aynı yerlerden geçmek. Rutin, üç köşenin <em>nasıl tekrarlandığını</em> örer.</p>
+      <p>Üçgeni ayakta tutan görünmez bir dördüncü şey daha var: <strong>rutin</strong>. Rutin, üç köşenin <em>nasıl tekrarlandığını</em> örer. Aynı yollar. Aynı sandviççi. Aynı kafenin aynı ışığı. Üç günü üst üste koyarsan aynı şekli görürsün — rutin böyle işler:</p>
+    </div>
+    <Routine client:visible />
+    <div class="prose">
       <p>Detaylı manifesto için <a href="/manifesto">manifesto</a>.</p>
     </div>
   </article>

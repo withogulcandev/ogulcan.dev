@@ -10,6 +10,12 @@ summary: Konumdan bağımsız yaşamanın omurgası — eat, stay, work.
 
 import Triangle from '../../apps/web/src/components/Triangle';
 
+export const demoPins = [
+  { type: 'eat', label: 'Yanagibashi Market', coord: [33.590, 130.395] },
+  { type: 'stay', label: 'Hostel Toka', coord: [33.593, 130.401] },
+  { type: 'work', label: 'Manu Coffee', coord: [33.588, 130.398] },
+];
+
 **Şekil:** manifesto declaration (frame-first, self-intro değil)
 **Hedef uzunluk:** 400-600 kelime · ~3 dk okuma
 **İskelet aşaması:** yalnız yapı; taslak cümleler yer tutucu, kendi sesinle geç.
@@ -26,7 +32,7 @@ Konumdan bağımsız yaşamanın omurgası.
 
 ## 3. Üç köşe — her biri 2-3 cümle, örneksiz
 
-<Triangle client:visible />
+<Triangle pins={demoPins} client:only="react" />
 
 Örnekler post 2'de gelecek. Burada sadece köşenin ne olduğunu söyle.
 - **Eat** — ne, nerede, kimle
