@@ -1,0 +1,21 @@
+---
+import Base from '../layouts/Base.astro';
+import Triangle from '../components/Triangle';
+---
+
+<Base title="Çerçeve — ogulcan.dev" description="Eat, stay, work üçgeni ve rutin — konumdan bağımsız yaşamanın omurgası.">
+  <article>
+    <header>
+      <h1>Çerçeve</h1>
+      <p class="entry-meta">Interaktif · eat, stay, work</p>
+    </header>
+    <div class="prose">
+      <p>Konumdan bağımsız yaşamanın omurgası üç köşede okunur: <strong>eat</strong>, <strong>stay</strong>, <strong>work</strong>. Bir köşeye tıkla — o boyutun anlamı açılır.</p>
+    </div>
+    <Triangle client:visible />
+    <div class="prose">
+      <p>Üçgeni ayakta tutan görünmez bir dördüncü şey daha var: <strong>rutin</strong>. Aynı yolları yürümek, aynı yerlerden geçmek. Rutin, üç köşenin <em>nasıl tekrarlandığını</em> örer.</p>
+      <p>Detaylı manifesto için <a href="/manifesto">manifesto</a>.</p>
+    </div>
+  </article>
+</Base>
