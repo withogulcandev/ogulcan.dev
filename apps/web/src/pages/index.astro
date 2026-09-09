@@ -2,13 +2,6 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 
-const TYPE_GLYPH: Record<string, string> = {
-  note: '◦',
-  stay: '🛏',
-  eat: '🍜',
-  work: '☕',
-};
-
 const all = await getCollection('entries');
 const published = all
   .filter((e) => e.data.status === 'published')
@@ -24,16 +17,15 @@ const fmtDate = (d: Date) => {
 <Base title="ogulcan.dev" description="Konumdan bağımsız yaşam üzerine yazılar.">
   {published.length === 0 && <p>Henüz yayınlanmış yazı yok.</p>}
   {published.length > 0 && (
-    <ol class="entry-list">
+    <ol class="chapter-list">
       {published.map((entry) => {
         const { iso, pretty } = fmtDate(entry.data.date);
         return (
           <li>
-            <article>
-              <p class="entry-meta">
-                <span class="entry-type" aria-label={entry.data.type}>
-                  {TYPE_GLYPH[entry.data.type]}
-                </span>
+            <a href={`/${entry.id}`}>
+              <p class="chapter-meta">
+                <span>{entry.data.type}</span>
+                <span class="dot">·</span>
                 <time datetime={iso}>{pretty}</time>
                 {entry.data.city && (
                   <>
@@ -42,11 +34,9 @@ const fmtDate = (d: Date) => {
                   </>
                 )}
               </p>
-              <h2 class="entry-title">
-                <a href={`/${entry.id}`}>{entry.data.title}</a>
-              </h2>
-              {entry.data.summary && <p class="entry-summary">{entry.data.summary}</p>}
-            </article>
+              <h2 class="chapter-title">{entry.data.title}</h2>
+              {entry.data.summary && <p class="chapter-summary">{entry.data.summary}</p>}
+            </a>
           </li>
         );
       })}
