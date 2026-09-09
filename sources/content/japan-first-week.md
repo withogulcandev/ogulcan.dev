@@ -3,7 +3,7 @@ title: Japonya — ilk hafta
 date: 2026-09-07
 country: Japan
 type: note
-lang: tr
+lang: en
 status: draft
 summary: Üçgeni pratikte göster — bir haftalık Japonya kesiti.
 ---

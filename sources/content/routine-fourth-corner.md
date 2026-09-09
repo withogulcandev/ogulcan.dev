@@ -3,7 +3,7 @@ title: Rutin — üçgenin dördüncü boyutu
 date: 2026-09-09
 country: Japan
 type: note
-lang: tr
+lang: en
 status: draft
 summary: Eat/stay/work üçgeninin görünmez dördüncü boyutu — rutinin koruyucu ve daraltıcı iki yüzü.
 ---

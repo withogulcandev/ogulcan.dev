@@ -52,7 +52,9 @@ body::before {
   margin: 0 auto;
   padding: 1.75rem 1.5rem 0;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
 }
 
 .running-head {
@@ -66,6 +68,15 @@ body::before {
 
 .running-head:hover {
   color: var(--ink);
+}
+
+.running-sub {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin: 0;
+  opacity: 0.8;
 }
 
 main {
@@ -100,43 +111,94 @@ main {
   margin: 0 0 1rem;
 }
 
-.book-nav ol {
+/* Timeline (vertical rail with dot markers, dates as mono) */
+.timeline { margin-bottom: 2.5rem; }
+
+.timeline-rail {
   list-style: none;
   padding: 0;
   margin: 0;
-  counter-reset: chapter;
+  position: relative;
 }
 
-.book-nav li {
-  counter-increment: chapter;
+.timeline-rail::before {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 8px;
+  bottom: 8px;
+  width: 1px;
+  background: var(--rule);
+}
+
+.timeline-rail li { padding: 0.3rem 0; }
+
+.timeline-rail a {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--muted);
+  text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+}
+
+.timeline-rail .tl-dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--paper);
+  border: 1px solid var(--muted);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.timeline-rail li.active .tl-dot {
+  background: var(--indigo);
+  border-color: var(--indigo);
+}
+
+.timeline-rail li.active a { color: var(--indigo); }
+.timeline-rail a:hover { color: var(--ink); }
+
+/* Chapters nav (roman numeral in a span, not pseudo-element) */
+.chapters-nav ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.chapters-nav li {
   padding: 0.4rem 0;
   line-height: 1.35;
 }
 
-.book-nav li::before {
-  content: counter(chapter, upper-roman) '.';
+.chapters-nav a {
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 0.95rem;
+  display: flex;
+  gap: 0.55em;
+  align-items: baseline;
+}
+
+.chapters-nav .ch-num {
   font-family: var(--font-mono);
   font-size: 0.7rem;
   letter-spacing: 0.12em;
   color: var(--muted);
-  margin-right: 0.5em;
   opacity: 0.7;
+  flex-shrink: 0;
+  min-width: 2ch;
 }
 
-.book-nav a {
-  color: var(--ink);
-  text-decoration: none;
-  font-size: 0.95rem;
-}
-
-.book-nav a:hover {
-  color: var(--indigo);
-}
-
-.book-nav a.active {
-  color: var(--indigo);
-  font-weight: 600;
-}
+.chapters-nav a:hover { color: var(--indigo); }
+.chapters-nav li.active a { color: var(--indigo); font-weight: 600; }
+.chapters-nav .preface-item { margin-bottom: 0.4rem; padding-bottom: 0.6rem; border-bottom: 1px dashed var(--rule); }
 
 .book-main {
   max-width: var(--measure);
@@ -159,6 +221,67 @@ main {
   margin: 0 auto;
 }
 
+/* Section label — used for "Preface" tag above h1 on / */
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 0.8rem;
+}
+
+/* Book flip nav — prev/next chapter at end of book-main */
+.book-flip {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--rule);
+}
+
+.flip-slot { display: flex; }
+.flip-slot-next { justify-content: flex-end; grid-column: 2; }
+
+.flip-link {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.75rem 1rem;
+  color: var(--ink);
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.flip-slot-next .flip-link { text-align: right; }
+
+.flip-link:hover {
+  border-color: var(--rule);
+  background: rgba(31, 61, 107, 0.03);
+}
+
+.flip-arrow {
+  font-family: var(--font-mono);
+  font-size: 1.3rem;
+  color: var(--muted);
+  line-height: 1;
+}
+
+.flip-text { display: flex; flex-direction: column; gap: 0.15em; }
+.flip-slot-next .flip-text { align-items: flex-end; }
+
+.flip-what {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.flip-title { font-size: 0.95rem; }
+
 @media (max-width: 800px) {
   .book-layout {
     grid-template-columns: 1fr;
@@ -177,17 +300,19 @@ main {
 .page-footer {
   max-width: var(--measure);
   margin: 0 auto;
-  padding: 1.5rem 1.5rem 3rem;
+  padding: 4rem 1.5rem 3rem;
   text-align: center;
+  border-top: 1px solid var(--rule);
 }
 
 .colophon {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.18em;
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--muted);
-  margin: 0;
+  margin: 0.3rem 0;
+  opacity: 0.75;
 }
 
 h1,

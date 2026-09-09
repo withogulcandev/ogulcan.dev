@@ -13,11 +13,11 @@ type Props = {
 };
 
 const DEFAULT: Activity[] = [
-  { label: 'Sabah yürüyüşü + sandviç', start: 7, end: 8, type: 'note' },
-  { label: 'Kişisel iş / okuma', start: 9, end: 12, type: 'work' },
-  { label: 'Yemek + mola', start: 12, end: 13, type: 'eat' },
-  { label: 'Mesai', start: 16, end: 20, type: 'work' },
-  { label: 'Yemek + sosyal', start: 20, end: 23, type: 'eat' },
+  { label: 'Morning walk + sandwich', start: 7, end: 8, type: 'note' },
+  { label: 'Personal work / reading', start: 9, end: 12, type: 'work' },
+  { label: 'Lunch + break', start: 12, end: 13, type: 'eat' },
+  { label: 'Day job', start: 16, end: 20, type: 'work' },
+  { label: 'Dinner + social', start: 20, end: 23, type: 'eat' },
 ];
 
 const TYPE_COLOR: Record<Activity['type'], string> = {
@@ -62,7 +62,7 @@ export default function Routine({ activities = DEFAULT, size = 320 }: Props) {
         viewBox={`0 0 ${size} ${size}`}
         width="100%"
         role="img"
-        aria-label="Günlük rutin — 24 saatlik dial, 3 gün overlay ile tekrar vurgulu"
+        aria-label="Daily routine — 24-hour dial, three-day overlay showing repetition"
       >
         {rings.map((ring, i) => (
           <circle
@@ -145,7 +145,7 @@ export default function Routine({ activities = DEFAULT, size = 320 }: Props) {
       >
         {active
           ? `${active.label} · ${String(active.start).padStart(2, '0')}:00 – ${String(active.end).padStart(2, '0')}:00`
-          : 'Üç gün üst üste — aynı ritim, farklı fark ediş. Bir arca tıkla.'}
+          : 'Three days overlaid — same rhythm, different noticing. Click an arc.'}
       </p>
     </div>
   );

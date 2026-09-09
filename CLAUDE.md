@@ -15,7 +15,7 @@ Faz-level planlama (brain repo): `projects/writing-platform.md`
 
 - **Package manager: yarn** (npm asla). Lockfile: `yarn.lock`.
 - **Git commit/push:** agent asla commit atmaz — sadece **title öner**, kullanıcı çalıştırır.
-- **Language:** kod ve config English; içerik ve reader-facing metin Türkçe. Dosya/klasör adları English kebab-case.
+- **Language:** **everything English** — code, config, all reader-facing content (site is targeted at English-speaking readers). File/folder names English kebab-case. Draft entries carrying Turkish body from earlier migration should be translated at publish time.
 - **Content schema** (`apps/web/src/content.config.ts`):
   - Required: `title`, `date`, `country`
   - Optional: `city`, `summary`

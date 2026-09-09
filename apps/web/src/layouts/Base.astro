@@ -7,7 +7,7 @@ interface Props {
   lang?: 'tr' | 'en';
 }
 
-const { title, description, lang = 'tr' } = Astro.props;
+const { title, description, lang = 'en' } = Astro.props;
 const siteName = 'ogulcan.dev';
 const year = new Date().getFullYear();
 ---
@@ -36,12 +36,15 @@ const year = new Date().getFullYear();
     <a href="#main" class="skip-link">Skip to content</a>
     <header class="page-header">
       <a href="/" class="running-head">{siteName}</a>
+      <p class="running-sub">A digital travelogue</p>
     </header>
     <main id="main">
       <slot />
     </main>
     <footer class="page-footer">
-      <p class="colophon">{year} — set in Newsreader</p>
+      <p class="colophon">ogulcan.dev</p>
+      <p class="colophon">Set in Newsreader &amp; JetBrains Mono</p>
+      <p class="colophon">{year}</p>
     </footer>
   </body>
 </html>

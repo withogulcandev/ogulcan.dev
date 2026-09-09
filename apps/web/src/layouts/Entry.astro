@@ -12,32 +12,73 @@ interface Props {
 }
 
 const { slug, title, date, city, summary, lang } = Astro.props;
+
+// Book order: preface (manifesto) first, then chapters chronologically
+const all = (await getCollection('entries'))
+  .filter((e) => e.data.status === 'published')
+  .sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
+
+const preface = all.find((e) => e.id === 'manifesto') ?? null;
+const chapters = all.filter((e) => e.id !== 'manifesto');
+const bookOrder = preface ? [preface, ...chapters] : chapters;
+const currentIdx = bookOrder.findIndex((e) => e.id === slug);
+const prev = currentIdx > 0 ? bookOrder[currentIdx - 1] : null;
+const next = currentIdx >= 0 && currentIdx < bookOrder.length - 1 ? bookOrder[currentIdx + 1] : null;
+
 const iso = date.toISOString().slice(0, 10);
 const [y, m, d] = iso.split('-');
 const pretty = `${y} · ${m} · ${d}`;
 
-const chapters = (await getCollection('entries'))
-  .filter((e) => e.data.status === 'published')
-  .sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
+const isPreface = slug === 'manifesto';
+const hrefFor = (id: string) => (id === 'manifesto' ? '/' : `/${id}`);
 ---
 
 <Base title={title} description={summary} lang={lang}>
   <div class="book-layout">
-    <aside class="book-nav" aria-label="Bölümler">
-      <p class="nav-label">Bölümler</p>
-      <ol>
-        {chapters.map((e) => (
-          <li>
-            <a href={`/${e.id}`} class={e.id === slug ? 'active' : ''}>
-              {e.data.title}
-            </a>
-          </li>
-        ))}
-      </ol>
+    <aside class="book-nav" aria-label="Timeline and chapters">
+      <div class="timeline">
+        <p class="nav-label">Timeline</p>
+        <ol class="timeline-rail">
+          {bookOrder.map((e) => {
+            const t = e.data.date.toISOString().slice(0, 10);
+            return (
+              <li class={e.id === slug ? 'active' : ''}>
+                <a href={hrefFor(e.id)}>
+                  <span class="tl-dot" aria-hidden="true"></span>
+                  <span class="tl-date">{t}</span>
+                </a>
+              </li>
+            );
+          })}
+        </ol>
+      </div>
+
+      <div class="chapters-nav">
+        <p class="nav-label">Chapters</p>
+        <ol>
+          {preface && (
+            <li class={`preface-item ${slug === 'manifesto' ? 'active' : ''}`}>
+              <a href="/">
+                <span class="ch-num">·</span>
+                {preface.data.title}
+              </a>
+            </li>
+          )}
+          {chapters.map((e, i) => (
+            <li class={e.id === slug ? 'active' : ''}>
+              <a href={`/${e.id}`}>
+                <span class="ch-num">{['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'][i] ?? String(i + 1)}.</span>
+                {e.data.title}
+              </a>
+            </li>
+          ))}
+        </ol>
+      </div>
     </aside>
 
     <article class="book-main">
       <header>
+        {isPreface && <p class="section-label">Preface</p>}
         <h1>{title}</h1>
         <p class="entry-meta">
           <time datetime={iso}>{pretty}</time>
@@ -47,6 +88,32 @@ const chapters = (await getCollection('entries'))
       <div class="prose">
         <slot />
       </div>
+      {(prev || next) && (
+        <nav class="book-flip" aria-label="Chapter navigation">
+          <div class="flip-slot flip-slot-prev">
+            {prev && (
+              <a href={hrefFor(prev.id)} class="flip-link">
+                <span class="flip-arrow" aria-hidden="true">←</span>
+                <span class="flip-text">
+                  <span class="flip-what">{prev.id === 'manifesto' ? 'Preface' : 'Previous'}</span>
+                  <span class="flip-title">{prev.data.title}</span>
+                </span>
+              </a>
+            )}
+          </div>
+          <div class="flip-slot flip-slot-next">
+            {next && (
+              <a href={hrefFor(next.id)} class="flip-link">
+                <span class="flip-text">
+                  <span class="flip-what">Next</span>
+                  <span class="flip-title">{next.data.title}</span>
+                </span>
+                <span class="flip-arrow" aria-hidden="true">→</span>
+              </a>
+            )}
+          </div>
+        </nav>
+      )}
     </article>
   </div>
 </Base>

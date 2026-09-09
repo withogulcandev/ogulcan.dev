@@ -96,7 +96,8 @@ export default function Triangle({ pins, height = 320 }: Props) {
           border: '1px solid var(--rule)',
           background: 'var(--paper)',
         }}
-        aria-hidden="true"
+        aria-label="Map showing the eat, stay, work triangle"
+        role="img"
       />
       <ol
         style={{
