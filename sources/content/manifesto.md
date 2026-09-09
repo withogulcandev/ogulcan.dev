@@ -1,0 +1,43 @@
+---
+title: Manifesto
+date: 2026-09-07
+country: Japan
+type: note
+lang: tr
+status: published
+summary: Konumdan bağımsız yaşamanın omurgası — eat, stay, work.
+---
+
+**Şekil:** manifesto declaration (frame-first, self-intro değil)
+**Hedef uzunluk:** 400-600 kelime · ~3 dk okuma
+**İskelet aşaması:** yalnız yapı; taslak cümleler yer tutucu, kendi sesinle geç.
+
+---
+
+## 1. Açılış — 2-3 cümle
+Ne yapıyorsun, neden yazıyorsun. Kısa, iddiasız.
+*Taslak: "Şehir değiştirerek yaşıyorum, işimi bırakmadan. Bu hayatın hayali değil, uygulanabilir olduğunu göstermek için yazıyorum."*
+
+## 2. Çerçeve — 1 kısa paragraf
+Konumdan bağımsız yaşamanın omurgası.
+*Taslak: "Nereye gidersem gideyim, hayatım üç köşeden okunuyor: eat, stay, work."*
+
+## 3. Üç köşe — her biri 2-3 cümle, örneksiz
+Örnekler post 2'de gelecek. Burada sadece köşenin ne olduğunu söyle.
+- **Eat** — ne, nerede, kimle
+- **Stay** — nerede uyuyorum, nasıl konforluyum
+- **Work** — ne inşa ediyorum, nasıl çalışıyorum
+
+## 4. Ne DEĞİL — kısa
+Pozisyonu netleştirme.
+*Taslak: "Bu 'işini bırak, gez' değil. Bütçe orta, plan uygulanabilir, iş yerinde. Luxury flex yok, doable örnek var."*
+
+## 5. Kapanış — 1-2 cümle
+Sonraki post'a köprü.
+*Taslak: "Sıradaki: Japonya'dan üç köşenin gerçek bir haftası."*
+
+---
+
+## Notlar (writer-only, publish öncesi strip)
+- Kapalı konular: iş IP'si, ilişkiler, ruh sağlığı, para rakamları.
+- Tweet eşleşmesi: 1 tweet + link, post yayınlanınca.
